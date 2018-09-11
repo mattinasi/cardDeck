@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.9"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="cardDeck" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card Testbed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aF2-pH-1g7">
+                                <rect key="frame" x="101.5" y="30" width="172" height="36"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vt2-3E-BWh">
+                                <rect key="frame" x="151.5" y="76" width="72" height="30"/>
+                                <state key="normal" title="Deal Hand"/>
+                                <connections>
+                                    <action selector="onDealHand:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Pia-V1-scb"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hand" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eod-Ud-dHW">
+                                <rect key="frame" x="10" y="116" width="355" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c8n-Hz-gt8">
+                                <rect key="frame" x="10" y="636.5" width="355" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C2R-cK-zqd">
+                                <rect key="frame" x="152.5" y="596.5" width="70" height="30"/>
+                                <state key="normal" title="New Deck"/>
+                                <connections>
+                                    <action selector="onNewDeck:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gi8-7U-IEW"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VaS-xs-TnN">
+                                <rect key="frame" x="164" y="146.5" width="47.5" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="c8n-Hz-gt8" secondAttribute="bottom" constant="10" id="5yr-UC-FrA"/>
+                            <constraint firstItem="VaS-xs-TnN" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="AIv-mG-ciD"/>
+                            <constraint firstItem="VaS-xs-TnN" firstAttribute="top" secondItem="eod-Ud-dHW" secondAttribute="bottom" constant="10" id="H1L-D0-xeQ"/>
+                            <constraint firstItem="c8n-Hz-gt8" firstAttribute="top" secondItem="C2R-cK-zqd" secondAttribute="bottom" constant="10" id="HnK-0x-F6h"/>
+                            <constraint firstItem="C2R-cK-zqd" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="KPz-rd-IwW"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eod-Ud-dHW" secondAttribute="trailing" constant="10" id="T8s-TC-CfU"/>
+                            <constraint firstItem="aF2-pH-1g7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="UQc-rw-IIL"/>
+                            <constraint firstItem="c8n-Hz-gt8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="XNP-Zv-Fs9"/>
+                            <constraint firstItem="Vt2-3E-BWh" firstAttribute="top" secondItem="aF2-pH-1g7" secondAttribute="bottom" constant="10" id="ZyQ-OR-4dn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="c8n-Hz-gt8" secondAttribute="trailing" constant="10" id="b7r-K1-kLW"/>
+                            <constraint firstItem="Vt2-3E-BWh" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="gAk-4s-aT2"/>
+                            <constraint firstItem="eod-Ud-dHW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="pL0-UY-JXu"/>
+                            <constraint firstItem="aF2-pH-1g7" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="sLF-5G-Zmh"/>
+                            <constraint firstItem="eod-Ud-dHW" firstAttribute="top" secondItem="Vt2-3E-BWh" secondAttribute="bottom" constant="10" id="vus-jh-MR1"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="deckLabel" destination="c8n-Hz-gt8" id="jvy-ND-0Ht"/>
+                        <outlet property="handLabel" destination="eod-Ud-dHW" id="FrP-sH-wFU"/>
+                        <outlet property="handScore" destination="VaS-xs-TnN" id="rh9-AP-D1W"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
