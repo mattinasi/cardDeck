@@ -11,21 +11,27 @@ import XCTest
 
 class cardPokerTests: XCTestCase {
 
-    let royalFlushHand: [(suit: Suit, rank: CardRank)] = [Card(suit: .hearts, rank: .ace), Card(suit: .hearts, rank: .king), Card(suit: .hearts, rank: .queen), Card(suit: .hearts, rank: .jack), Card(suit: .hearts, rank: .ten)]
+    let royalFlushHand = [Card(suit: .hearts, rank: .ace), Card(suit: .hearts, rank: .king), Card(suit: .hearts, rank: .queen), Card(suit: .hearts, rank: .jack), Card(suit: .hearts, rank: .ten)]
     
-    let straightFlushHand: [(suit: Suit, rank: CardRank)] = [Card(suit: .hearts, rank: .nine), Card(suit: .hearts, rank: .king), Card(suit: .hearts, rank: .queen), Card(suit: .hearts, rank: .jack), Card(suit: .hearts, rank: .ten)]
+    let straightFlushHand = [Card(suit: .hearts, rank: .nine), Card(suit: .hearts, rank: .king), Card(suit: .hearts, rank: .queen), Card(suit: .hearts, rank: .jack), Card(suit: .hearts, rank: .ten)]
 
-    let fiveCardStraight: [(suit: Suit, rank: CardRank)] = [Card(suit: .hearts, rank: .jack), Card(suit: .clubs, rank: .ten), Card(suit: .diamonds, rank: .nine), Card(suit: .spades, rank: .eight), Card(suit: .diamonds, rank: .seven)]
+    let fiveCardStraight = [Card(suit: .hearts, rank: .jack), Card(suit: .clubs, rank: .ten), Card(suit: .diamonds, rank: .nine), Card(suit: .spades, rank: .eight), Card(suit: .diamonds, rank: .seven)]
 
-    let sevenCardStraight: [(suit: Suit, rank: CardRank)] = [Card(suit: .hearts, rank: .ten), Card(suit: .clubs, rank: .nine), Card(suit: .diamonds, rank: .eight), Card(suit: .spades, rank: .seven), Card(suit: .diamonds, rank: .six), Card(suit: .clubs, rank: .queen), Card(suit: .spades, rank: .two)]
+    let sevenCardStraight = [Card(suit: .hearts, rank: .ten), Card(suit: .clubs, rank: .nine), Card(suit: .diamonds, rank: .eight), Card(suit: .spades, rank: .seven), Card(suit: .diamonds, rank: .six), Card(suit: .clubs, rank: .queen), Card(suit: .spades, rank: .two)]
 
     func testRoyalFlush() {
         let deck = royalFlushHand
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.royalFlush()
         
-        XCTAssertTrue(result)
-        
+        XCTAssertTrue(result.result)
+        XCTAssertEqual(5, result.hand.count)
+        XCTAssertEqual(.ace, result.hand[0].rank)
+        XCTAssertEqual(.king, result.hand[1].rank)
+        XCTAssertEqual(.queen, result.hand[2].rank)
+        XCTAssertEqual(.jack, result.hand[3].rank)
+        XCTAssertEqual(.ten, result.hand[4].rank)
+
         // royal flush is always a straightFlush, a flush and a straight... just sayin'
         XCTAssertTrue(pokerHand.straightFlush().result)
         XCTAssertTrue(pokerHand.straight().result)
@@ -211,7 +217,8 @@ class cardPokerTests: XCTestCase {
         let deck = [Card(suit: .hearts, rank: .three),
                     Card(suit: .hearts, rank: .three),
                     Card(suit: .hearts, rank: .king),
-                    Card(suit: .hearts, rank: .king)]
+                    Card(suit: .hearts, rank: .king),
+                    Card(suit: .diamonds, rank: .ace)]
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.twoPair()
         XCTAssertTrue(result.result)
@@ -227,9 +234,95 @@ class cardPokerTests: XCTestCase {
                     Card(suit: .hearts, rank: .king)]
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.fullHouse()
+        
         XCTAssertTrue(result.result)
         XCTAssertEqual(.king, result.pairRank)
         XCTAssertEqual(.three, result.threeRank)
     }
 
+    func testHighCardRanking() {
+        let deck = [Card(suit: .hearts, rank: .three),
+                    Card(suit: .hearts, rank: .four),
+                    Card(suit: .spades, rank: .three),
+                    Card(suit: .diamonds, rank: .seven),
+                    Card(suit: .hearts, rank: .king)]
+        let pokerHand = PokerHand(hand: deck)
+        let result = pokerHand.highCard()
+        
+        XCTAssertTrue(result.result)
+        XCTAssertEqual(.king, result.cardRanking[0])
+        XCTAssertEqual(.seven, result.cardRanking[1])
+        XCTAssertEqual(.four, result.cardRanking[2])
+        XCTAssertEqual(.three, result.cardRanking[3])
+        XCTAssertEqual(.three, result.cardRanking[4])
+    }
+    
+    // MARK: handRanking
+    
+    func testRoyalFlushHandRanking() {
+        let deck = royalFlushHand
+        
+        let pokerHand = PokerHand(hand: deck)
+        let result = pokerHand.handRanking()
+        
+        switch result.highRank {
+        case .royalFlush:
+            XCTAssertTrue(true)
+        default:
+            XCTAssertTrue(false)
+        }
+        
+        XCTAssertEqual(1, result.winningHand.count)
+        XCTAssertEqual(5, result.winningHand[0].count)
+        XCTAssertEqual(CardRank.ace, result.winningHand[0][0].rank)
+        
+        XCTAssertEqual(0, result.highCards.count)
+    }
+    
+    func testStraightFlushHandRanking() {
+        let deck = straightFlushHand
+        let pokerHand = PokerHand(hand: deck)
+        let result = pokerHand.handRanking()
+        
+        switch result.highRank {
+        case .straightFlush( let rank ):
+            XCTAssertTrue(rank == .king)
+        default:
+            XCTAssertTrue(false)
+        }
+
+        XCTAssertEqual(1, result.winningHand.count)
+        XCTAssertEqual(5, result.winningHand[0].count)
+        XCTAssertEqual(CardRank.king, result.winningHand[0][0].rank)
+        
+        XCTAssertEqual(0, result.highCards.count)
+    }
+    
+    func testFourOfAKindHandRanking() {
+        let deck = [Card(suit: .hearts, rank: .king),
+                    Card(suit: .hearts, rank: .three),
+                    Card(suit: .hearts, rank: .three),
+                    Card(suit: .hearts, rank: .three),
+                    Card(suit: .hearts, rank: .three)]
+        let pokerHand = PokerHand(hand: deck)
+        let result = pokerHand.handRanking()
+        
+        switch result.highRank {
+        case .fourOfAKind( let rank ):
+            XCTAssertEqual(rank, .three)
+            break
+        default:
+            XCTAssertTrue(false)
+        }
+
+        XCTAssertEqual(1, result.winningHand.count)
+        XCTAssertEqual(4, result.winningHand[0].count)
+        XCTAssertEqual(1, result.highCards.count)
+        
+        XCTAssertEqual(.three, result.winningHand[0][0].rank)
+        XCTAssertEqual(.three, result.winningHand[0][1].rank)
+        XCTAssertEqual(.three, result.winningHand[0][2].rank)
+        XCTAssertEqual(.three, result.winningHand[0][3].rank)
+        XCTAssertEqual(.king, result.highCards[0].rank)
+    }
 }

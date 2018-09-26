@@ -32,6 +32,18 @@ class cardDeckTests: XCTestCase {
       XCTAssertEqual(deck.count, cutDeck?.count)
     }
 
+    func testCutEmptyDeck() {
+        let deck = Deck()
+        do {
+            _ = try cut(deck: deck)
+            XCTAssertTrue(false)
+        } catch DeckError.notEnoughCards {
+            XCTAssertTrue(true)
+        } catch {
+            XCTAssertTrue(false)
+        }
+    }
+    
     func testBury() {
         let deck = makeShuffledDeck()
         var cutDeck = bury(fromDeck: deck)

@@ -78,7 +78,7 @@ class ViewController: UIViewController {
         let pokerHand = PokerHand(hand: currentHand)
         
         let score = pokerHand.handRanking()
-        switch score {
+        switch score.highRank {
         case .royalFlush:
             handScore.text = "Royal Flush!"
         case .straightFlush(let rank):

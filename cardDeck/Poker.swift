@@ -9,6 +9,7 @@
 import Foundation
 
 struct PokerHand {
+    
     enum HandRanking {
         case royalFlush
         case straightFlush(CardRank)
@@ -22,6 +23,13 @@ struct PokerHand {
         case highCard(CardRank)
     }
     
+    struct HandScore {
+        var highRank: HandRanking       // the overall rabk of the hand
+        var winningHand: [Deck]         // the cards making up the winning rank
+        var highCards: [Card]           // the remaining cards, in rank-order
+        var score: Int                  // experimental numerical score
+    }
+    
     private let hand: Deck
     private let straightLength = 5
 
@@ -29,56 +37,97 @@ struct PokerHand {
         self.hand = hand
     }
 
-    func handRanking() -> HandRanking {
-        if royalFlush() { return .royalFlush }
-        
-        let sf = straightFlush()
-        if sf.result { return .straightFlush(sf.highRank) }
-        
-        let foak = fourOfAKind()
-        if foak.result { return .fourOfAKind(foak.highRank) }
-        
-        let fh = fullHouse()
-        if fh.result { return .fullHouse(fh.threeRank, fh.pairRank) }
-        
-        let f = flush()
-        if f.result { return .flush(f.highRank) }
-        
-        let st = straight()
-        if st.result { return .straight(st.highRank) }
-        
-        let toak = threeOfAKind()
-        if toak.result { return .threeOfAKind(toak.highRank) }
-        
-        let tp = twoPair()
-        if tp.result { return .twoPair(tp.highRank1, tp.highRank2) }
-        
-        let twooak = twoOfAKind()
-        if twooak.result { return .pair(twooak.highRank) }
-        
-        let high = highCards(inDeck: hand)
-        return .highCard(high[0].rank)
+    func score(hand: Deck) -> Int {
+        return 100
     }
     
-    func royalFlush() -> Bool {
-        guard hand.count >= 5 else { return false }
+    func handRanking() -> HandScore {
+        
+        let result = royalFlush()
+        if result.result {
+            let result = HandScore(highRank: .royalFlush,
+                                   winningHand: [result.hand],
+                                   highCards: [],
+                                   score: score(hand: result.hand))
+            return result
+        }
+        
+        let sf = straightFlush()
+        if sf.result {
+            let result = HandScore(highRank: .straightFlush(sf.highRank),
+                                   winningHand: [result.hand],
+                                   highCards: [],
+                                   score: score(hand: hand))
+            return result
+        }
+
+        let foak = fourOfAKind()
+        if foak.result {
+            
+            let winningHand = hand.filter { (card) -> Bool in
+                return card.rank == foak.highRank
+            }
+            let highCards = hand.filter { (card) -> Bool in
+                return card.rank != foak.highRank
+            }
+            return HandScore(highRank: .fourOfAKind(foak.highRank),
+                             winningHand: [winningHand],
+                             highCards: highCards,
+                             score: score(hand: hand))
+        }
+//
+//        let fh = fullHouse()
+//        if fh.result { return .fullHouse(fh.threeRank, fh.pairRank) }
+//
+//        let f = flush()
+//        if f.result { return .flush(f.highRank) }
+//
+//        let st = straight()
+//        if st.result { return .straight(st.highRank) }
+//
+//        let toak = threeOfAKind()
+//        if toak.result { return .threeOfAKind(toak.highRank) }
+//
+//        let tp = twoPair()
+//        if tp.result { return .twoPair(tp.highRank1, tp.highRank2) }
+//
+//        let twooak = twoOfAKind()
+//        if twooak.result { return .pair(twooak.highRank) }
+//
+//        let high = highCards(inDeck: hand)
+//        return .highCard(high[0].rank)
+        
+        let card = Card.defaultCard()
+        return HandScore(highRank: .highCard(card.rank), winningHand: [[card]], highCards: [card], score: score(hand: [card]))
+    }
+    
+    func royalFlush() -> (result: Bool, hand: Deck) {
+        guard hand.count >= 5 else { return (result: false, hand: []) }
         guard let ace = hand.first(where: { (card) -> Bool in
             card.rank == .ace
         }) else {
-            return false
+            return (result: false, hand: [])
         }
-        let suit = ace.suit
+        
 
         // all same suit?
+        let suit = ace.suit
         let suited = cardsOfSuit(suit, inDeck: hand)
-        guard suited.count == 5 else {
-            return false
+        guard suited.count >= 5 else {
+            return (result: false, hand: [])
         }
 
-        return hasCard(Card(suit: suit, rank: .king), inDeck: hand) &&
-            hasCard(Card(suit: suit, rank: .queen), inDeck: hand) &&
-            hasCard(Card(suit: suit, rank: .jack), inDeck: hand) &&
-            hasCard(Card(suit: suit, rank: .ten), inDeck: hand)
+        let winningHand = [Card(suit: suit, rank: .ace),
+                           Card(suit: suit, rank: .king),
+                           Card(suit: suit, rank: .queen),
+                           Card(suit: suit, rank: .jack),
+                           Card(suit: suit, rank: .ten)]
+        for winningCard in winningHand {
+            if !hasCard(winningCard, inDeck: hand) {
+                return (result: false, hand: [])
+            }
+        }
+        return (result: true, hand: winningHand)
     }
 
     func straightFlush() -> (result: Bool, highRank: CardRank) {
@@ -241,6 +290,19 @@ struct PokerHand {
                 result.threeRank = three.highRank
             }
         }
+        return result
+    }
+    
+    func highCard() -> (result: Bool, cardRanking: [CardRank]) {
+        var result = (result: true, cardRanking: [CardRank.joker])
+        
+        let sortedDeck = hand.sorted { (l, r) -> Bool in
+            return l.rank.rawValue > r.rank.rawValue
+            }.compactMap { (card) -> CardRank in
+                return card.rank
+        }
+        
+        result.cardRanking = sortedDeck
         return result
     }
 }

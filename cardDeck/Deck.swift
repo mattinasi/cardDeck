@@ -34,7 +34,21 @@ enum CardRank: Int {
     case joker  = 0
 }
 
-typealias Card = (suit: Suit, rank: CardRank)
+struct Card {
+    
+    var suit: Suit
+    var rank: CardRank
+    
+    init(suit: Suit, rank: CardRank) {
+        self.suit = suit
+        self.rank = rank
+    }
+    
+    static func defaultCard() -> Card {
+        return Card(suit: .diamonds, rank: .joker)
+    }
+}
+
 typealias Deck = [Card]
 
 enum DeckError: Error {
