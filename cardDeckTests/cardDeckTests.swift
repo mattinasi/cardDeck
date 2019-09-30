@@ -10,15 +10,13 @@ import XCTest
 @testable import cardDeck
 
 class cardDeckTests: XCTestCase {
-
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    func testUnshuffledDeck() {
+        let deck = makeStandardDeck()
+        
+        XCTAssertEqual(52, deck.count)
     }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
+    
     func testShuffledDeck() {
       let deck = makeShuffledDeck()
       
@@ -36,54 +34,71 @@ class cardDeckTests: XCTestCase {
         let deck = Deck()
         do {
             _ = try cut(deck: deck)
-            XCTAssertTrue(false)
+            XCTFail("Should throw exception cutting empty deck")
         } catch DeckError.notEnoughCards {
             XCTAssertTrue(true)
         } catch {
-            XCTAssertTrue(false)
+            XCTFail("Should throw notEnoughCards exception cutting empty deck")
         }
     }
     
+    func testCutSingleCardDeck() {
+        let deck = [Card(suit: .spades, rank: .ace)]
+
+        do {
+            _ = try cut(deck: deck)
+            XCTFail("Should throw exception cutting single-card deck")
+        } catch DeckError.notEnoughCards {
+            XCTAssertTrue(true)
+        } catch {
+            XCTFail("Should throw notEnoughCards exception cutting single-card deck")
+        }
+    }
+
     func testBury() {
         let deck = makeShuffledDeck()
-        var cutDeck = bury(fromDeck: deck)
-        XCTAssertEqual(deck.count-1, cutDeck.count)
-        
-        cutDeck = bury(count: 5, fromDeck: deck)
-        XCTAssertEqual(5, deck.count - cutDeck.count)
 
+        let buryDeck = bury(fromDeck: deck)
+        XCTAssertEqual(deck.count-1, buryDeck.count)
     }
 
-    func testCutFailure() {
-        var deck = [Card]()
-        var cutDeck = try? cut(deck: deck)
-        XCTAssertNil(cutDeck)
-        
-        deck = [Card(suit: .spades, rank: .ace)]
-        cutDeck = try? cut(deck: deck)
-        XCTAssertNil(cutDeck)
-        
-    }
+    func testBuryMoreThanOne() {
+        let deck = makeShuffledDeck()
 
-    func testHand() {
+        let buryDeck = bury(count: 5, fromDeck: deck)
+        XCTAssertEqual(5, deck.count - buryDeck.count)
+    }
+    
+    func testBuryEmptyDeck() {
+        let deck = [Card]()
+        
+        let buryDeck = bury(fromDeck: deck)
+        XCTAssertEqual(0, buryDeck.count)
+    }
+    
+    func testDealHand() {
         let deck = makeShuffledDeck()
       
         if let hand = try? dealHand(fromDeck: deck, count: 5) {
-            XCTAssertEqual(5, hand.hand.count)
-            XCTAssertEqual(47, hand.deck.count)
-            
-            if let hand2 = try? dealHand(fromDeck: hand.deck, count: 7) {
-                XCTAssertEqual(7, hand2.hand.count)
-                XCTAssertEqual(40, hand2.deck.count)
-            } else { XCTAssertFalse(true, "Failed to deal hand")}
-        } else { XCTAssertFalse(true, "Failed to deal hand")}
+            XCTAssertEqual(5, hand.cards.count)
+            XCTAssertEqual(47, hand.remainingDeck.count)
+        } else {
+            XCTFail("Failed to deal hand")
+        }
     }
 
-    func testHandInsufficientCards() {
+    func testDealHandInsufficientCards() {
         let deck = [Card(suit: .hearts, rank: .ace), Card(suit: .clubs, rank: .ace), Card(suit: .diamonds, rank: .ace), Card(suit: .spades, rank: .ace)]
+        var hand: (cards: Deck, remainingDeck: Deck)?
         
-        let hand = try? dealHand(fromDeck: deck, count: deck.count + 1)
-        XCTAssertNil(hand)
+        do {
+            hand = try dealHand(fromDeck: deck, count: deck.count + 1)
+            XCTFail("Should have thrown notEnoughCards exception")
+        } catch DeckError.notEnoughCards {
+            XCTAssertNil(hand)
+        } catch {
+            XCTFail("Should have thrown notEnoughCards exception")
+        }
     }
     
     func testHasCard() {
@@ -148,5 +163,41 @@ class cardDeckTests: XCTestCase {
 
         let emptyHighest = highCards(inDeck: [])
         XCTAssertEqual(0, emptyHighest.count)
+    }
+    
+    func testCardRepresentationForJack() {
+        let card = Card(suit: .hearts, rank: .jack)
+        
+        let representation = cardRepresentation(card)
+        XCTAssertEqual("♥️ J", representation)
+    }
+    
+    func testCardRepresentationForNumericalRank() {
+        let range = CardRank.two.rawValue...CardRank.ten.rawValue
+        range.forEach { (rank) in
+            guard let cardRank = CardRank(rawValue: rank) else {
+                XCTFail()
+                return
+            }
+            let representation = cardRepresentation(Card(suit: .hearts, rank: cardRank))
+            XCTAssertEqual("♥️ \(rank)", representation)
+        }
+    }
+    
+    func testEachPossibleHandCount() {
+        let deck = [Card(suit: .hearts, rank: .nine),
+                    Card(suit: .clubs, rank: .jack),
+                    Card(suit: .clubs, rank: .three),
+                    Card(suit: .diamonds, rank: .king),
+                    Card(suit: .diamonds, rank: .five),
+                    Card(suit: .spades, rank: .five),
+                    Card(suit: .spades, rank: .ace)]
+        var counter = 0
+        eachHand(of: 5, in: deck) { hand in
+            counter += 1
+        }
+        
+        // picking 5 out of 7 cards makes 7! / (5!(7-5)!) = 21
+        XCTAssertEqual(21, counter)
     }
 }

@@ -24,29 +24,52 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.royalFlush()
         
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(5, result.hand.count)
-        XCTAssertEqual(.ace, result.hand[0].rank)
-        XCTAssertEqual(.king, result.hand[1].rank)
-        XCTAssertEqual(.queen, result.hand[2].rank)
-        XCTAssertEqual(.jack, result.hand[3].rank)
-        XCTAssertEqual(.ten, result.hand[4].rank)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(5, result?.count)
+        XCTAssertEqual(.ace, result?[0].rank)
+        XCTAssertEqual(.king, result?[1].rank)
+        XCTAssertEqual(.queen, result?[2].rank)
+        XCTAssertEqual(.jack, result?[3].rank)
+        XCTAssertEqual(.ten, result?[4].rank)
 
         // royal flush is always a straightFlush, a flush and a straight... just sayin'
-        XCTAssertTrue(pokerHand.straightFlush().result)
-        XCTAssertTrue(pokerHand.straight().result)
-        XCTAssertTrue(pokerHand.flush().result)
+        XCTAssertNotNil(pokerHand.straightFlush())
+        XCTAssertNotNil(pokerHand.straight())
+        XCTAssertNotNil(pokerHand.flush())
+    }
+
+    func testRoyalFlushBuried() {
+        var deck = royalFlushHand
+        deck = [Card(suit: .clubs, rank: .seven)] + deck
+        deck.append(Card(suit: .clubs, rank: .two))
+        let pokerHand = PokerHand(hand: deck)
+        let result = pokerHand.royalFlush()
+        
+        XCTAssertNotNil(result)
+        XCTAssertEqual(5, result?.count)
+        XCTAssertEqual(.ace, result?[0].rank)
+        XCTAssertEqual(.king, result?[1].rank)
+        XCTAssertEqual(.queen, result?[2].rank)
+        XCTAssertEqual(.jack, result?[3].rank)
+        XCTAssertEqual(.ten, result?[4].rank)
+        
+        // royal flush is always a straightFlush, a flush and a straight... just sayin'
+        XCTAssertNotNil(pokerHand.straightFlush())
+        XCTAssertNotNil(pokerHand.straight())
+        XCTAssertNotNil(pokerHand.flush())
     }
     
+
     func testStraightFlush() {
         let deck = straightFlushHand
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.straightFlush()
         
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(.king, result.highRank)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(.king, result?[0].rank)
         
-        XCTAssertTrue(pokerHand.straight().result)
+        XCTAssertNotNil(pokerHand.straight())
+        XCTAssertNotNil(pokerHand.flush())
     }
 
     func testNotStraightFlush() {
@@ -55,7 +78,7 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.straightFlush()
         
-        XCTAssertFalse(result.result)
+        XCTAssertNil(result)
     }
 
     func testStraightFiveCards() {
@@ -63,8 +86,8 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.straight()
         
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(CardRank.jack, result.highRank)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(CardRank.jack, result?[0].rank)
     }
 
     func testStraightSevenCards() {
@@ -72,8 +95,8 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.straight()
         
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(CardRank.ten, result.highRank)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(CardRank.ten, result?[0].rank)
     }
 
     func testStraightWithPairsCards() {
@@ -83,8 +106,8 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.straight()
         
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(CardRank.jack, result.highRank)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(CardRank.jack, result?[0].rank)
     }
 
     func testNotStraight() {
@@ -92,7 +115,7 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.straight()
         
-        XCTAssertFalse(result.result)
+        XCTAssertNil(result)
     }
 
     func testNotStraightLongHand() {
@@ -107,7 +130,7 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.straight()
         
-        XCTAssertFalse(result.result)
+        XCTAssertNil(result)
     }
 
     func testNotStraightLessThanFiveCards() {
@@ -115,7 +138,7 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.straight()
         
-        XCTAssertFalse(result.result)
+        XCTAssertNil(result)
     }
 
     func testStraightWithAce() {
@@ -127,8 +150,8 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.straight()
         
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(CardRank.five, result.highRank)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(CardRank.five, result?[0].rank)
     }
 
     func testLongStraightWithAce() {
@@ -142,8 +165,8 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.straight()
         
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(CardRank.five, result.highRank)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(CardRank.five, result?[0].rank)
     }
 
     func testFlush() {
@@ -154,8 +177,8 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         
         let result = pokerHand.flush()
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(.king, result.highRank)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(.king, result)
     }
 
     func testNotFlush() {
@@ -166,7 +189,7 @@ class cardPokerTests: XCTestCase {
         let pokerHand = PokerHand(hand: deck)
         
         let result = pokerHand.flush()
-        XCTAssertFalse(result.result)
+        XCTAssertNil(result)
     }
     
     func testFourOfAKind() {
@@ -177,8 +200,9 @@ class cardPokerTests: XCTestCase {
                     Card(suit: .hearts, rank: .three)]
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.fourOfAKind()
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(.three, result.highRank)
+
+        XCTAssertNotNil(result)
+        XCTAssertEqual(.three, result)
     }
     
     func testNotFourOfAKind() {
@@ -189,7 +213,7 @@ class cardPokerTests: XCTestCase {
                     Card(suit: .hearts, rank: .three)]
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.fourOfAKind()
-        XCTAssertFalse(result.result)
+        XCTAssertNil(result)
     }
 
     func testThreeOfAKind() {
@@ -199,8 +223,9 @@ class cardPokerTests: XCTestCase {
                     Card(suit: .hearts, rank: .three)]
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.threeOfAKind()
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(.three, result.highRank)
+        
+        XCTAssertNotNil(result)
+        XCTAssertEqual(.three, result)
     }
 
     func testTwoOfAKind() {
@@ -209,8 +234,9 @@ class cardPokerTests: XCTestCase {
                     Card(suit: .hearts, rank: .three)]
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.twoOfAKind()
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(.three, result.highRank)
+
+        XCTAssertNotNil(result)
+        XCTAssertEqual(.three, result)
     }
     
     func testTwoPair() {
@@ -221,9 +247,10 @@ class cardPokerTests: XCTestCase {
                     Card(suit: .diamonds, rank: .ace)]
         let pokerHand = PokerHand(hand: deck)
         let result = pokerHand.twoPair()
-        XCTAssertTrue(result.result)
-        XCTAssertEqual(.king, result.highRank1)
-        XCTAssertEqual(.three, result.highRank2)
+
+        XCTAssertNotNil(result)
+        XCTAssertEqual(.king, result?.highRank1)
+        XCTAssertEqual(.three, result?.highRank2)
     }
 
     func testFullHouse() {

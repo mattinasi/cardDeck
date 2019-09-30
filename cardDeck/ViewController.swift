@@ -35,8 +35,8 @@ class ViewController: UIViewController {
     
     @IBAction func onDealHand(_ sender: Any) {
         if let dealtHand = try? dealHand(fromDeck: deck, count: 5) {
-            currentHand = dealtHand.hand
-            deck = dealtHand.deck
+            currentHand = dealtHand.cards
+            deck = dealtHand.remainingDeck
         } else {
             toast(message: "Could not deal a new hand")
         }

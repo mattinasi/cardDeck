@@ -31,7 +31,7 @@ enum CardRank: Int {
     case four   = 4
     case three  = 3
     case two    = 2
-    case joker  = 0
+    case none   = 0
 }
 
 struct Card {
@@ -45,7 +45,7 @@ struct Card {
     }
     
     static func defaultCard() -> Card {
-        return Card(suit: .diamonds, rank: .joker)
+        return Card(suit: .spades, rank: .ace)
     }
 }
 
@@ -55,8 +55,6 @@ enum DeckError: Error {
     case notEnoughCards
     case cardNotFound
 }
-
-let joker = Card(suit: .spades, rank: .joker)
 
 // MARK: - Deck functions -
 
@@ -107,16 +105,19 @@ func shuffle(deck: Deck, repeat: Int = 50) -> Deck {
   return resultDeck
 }
 
-func makeShuffledDeck() -> Deck {
-  let deck = makeAllCards(ofSuit: .hearts) +
+func makeStandardDeck() -> Deck {
+    return makeAllCards(ofSuit: .hearts) +
     makeAllCards(ofSuit: .diamonds) +
     makeAllCards(ofSuit: .spades) +
     makeAllCards(ofSuit: .clubs)
-  
+}
+
+func makeShuffledDeck() -> Deck {
+  let deck = makeStandardDeck()
   return shuffle(deck: deck)
 }
 
-func dealHand(fromDeck: Deck, count: Int) throws -> (hand: Deck, deck: Deck) {
+func dealHand(fromDeck: Deck, count: Int) throws -> (cards: Deck, remainingDeck: Deck) {
     guard fromDeck.count >= count else { throw DeckError.notEnoughCards }
     
     let dealt = fromDeck[0..<count]
@@ -126,7 +127,7 @@ func dealHand(fromDeck: Deck, count: Int) throws -> (hand: Deck, deck: Deck) {
     let deck = fromDeck.suffix(from: count).compactMap { (card) -> Card? in
         return card
     }
-    return (hand: hand, deck: deck)
+    return (cards: hand, remainingDeck: deck)
 }
 
 // MARK: - inquiries about what is in a Deck -
@@ -182,8 +183,62 @@ func highCards(inDeck deck: Deck) -> [Card] {
         return l.rank.rawValue > r.rank.rawValue
     })
     return sorted.compactMap({ (card) -> Card? in
-        return card.rank == sorted.first!.rank ? card : nil
+        return card.rank == sorted.first?.rank ? card : nil
     })
+}
+
+func eachHand(of size: Int, in deck: Deck, handler: (Deck) -> Void) {
+    let combinations = makeCombinations(deck, size: size)
+    combinations.forEach { hand in
+        handler(hand)
+    }
+}
+
+private func makeCombinations(_ deck: Deck, size: Int) -> [Deck] {
+    let results = combinationsWithoutRepetitionFrom(deck, taking: size)
+
+    return results
+}
+
+/// Given an array of elements and how many of them we are taking, returns an array with all possible combinations
+/// without repetition. Please note that as repetition is not allowed, taking must always be less or equal to
+/// `elements.count`.
+/// Almost by convention, if `taking` is 0, the function will return [[]] (an array with only one possible combination
+/// - a combination with no elements). In a different scenario, if taking is bigger than `elements.count` the function
+/// will return [] (an empty array, so including no combination at all).
+///
+/// - Parameters:
+///   - elements: Array to be combinating.
+///   - taking: Picking item count from array
+/// - Returns: Returns combinations of elements without repetition.
+/// https://github.com/almata/Combinatorics/blob/master/Combinatorics/Combinatorics.swift
+///
+public func combinationsWithoutRepetitionFrom<T>(_ elements: [T], taking: Int) -> [[T]] {
+  guard elements.count >= taking else { return [] }
+  guard elements.count > 0 && taking > 0 else { return [[]] }
+
+  if taking == 1 {
+    return elements.map {[$0]}
+  }
+
+  var combinations = [[T]]()
+  for (index, element) in elements.enumerated() {
+    var reducedElements = elements
+    reducedElements.removeFirst(index + 1)
+    combinations += combinationsWithoutRepetitionFrom(reducedElements, taking: taking - 1).map {[element] + $0}
+  }
+
+  return combinations
+}
+private func subset(deck: Deck, indices: [Int]) -> Deck {
+    var result = Deck()
+    
+    var i = 0
+    indices.forEach { (index) in
+        result[i] = deck[indices[index]]
+        i += 1
+    }
+    return result
 }
 
 // MARK: - display -
@@ -192,6 +247,7 @@ func highCards(inDeck deck: Deck) -> [Card] {
 //
 func cardRepresentation(_ card: Card) -> String {
     var rank: String
+    
     switch card.rank {
     case .ace:
         rank = "A"
@@ -201,17 +257,11 @@ func cardRepresentation(_ card: Card) -> String {
         rank = "Q"
     case .jack:
         rank = "J"
-    case .joker:
-        rank = "Joker!"
     default:
         rank = String(card.rank.rawValue)
     }
     
-    if card.rank == .joker {
-        return rank
-    } else {
-        return "\(card.suit.rawValue) \(rank)"
-    }
+    return "\(card.suit.rawValue) \(rank)"
 }
 
 func print(deck: Deck) {
