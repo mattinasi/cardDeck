@@ -15,6 +15,7 @@
 		492B5EF02144D7AB0034A82D /* cardDeckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EEF2144D7AB0034A82D /* cardDeckTests.swift */; };
 		492B5EFB2144D7C70034A82D /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EFA2144D7C70034A82D /* Deck.swift */; };
 		492B5EFD2144D8AC0034A82D /* Poker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EFC2144D8AC0034A82D /* Poker.swift */; };
+		497641352347907700E22631 /* Poker+HandRanking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497641342347907700E22631 /* Poker+HandRanking.swift */; };
 		49C865372145979B00EC5CAA /* cardPokerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C865362145979B00EC5CAA /* cardPokerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		492B5EF12144D7AB0034A82D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		492B5EFA2144D7C70034A82D /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		492B5EFC2144D8AC0034A82D /* Poker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poker.swift; sourceTree = "<group>"; };
+		497641342347907700E22631 /* Poker+HandRanking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Poker+HandRanking.swift"; sourceTree = "<group>"; };
 		49C865362145979B00EC5CAA /* cardPokerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cardPokerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +93,7 @@
 				492B5EE62144D7AB0034A82D /* Info.plist */,
 				492B5EFA2144D7C70034A82D /* Deck.swift */,
 				492B5EFC2144D8AC0034A82D /* Poker.swift */,
+				497641342347907700E22631 /* Poker+HandRanking.swift */,
 			);
 			path = cardDeck;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				497641352347907700E22631 /* Poker+HandRanking.swift in Sources */,
 				492B5EFB2144D7C70034A82D /* Deck.swift in Sources */,
 				492B5EDD2144D7A90034A82D /* ViewController.swift in Sources */,
 				492B5EDB2144D7A90034A82D /* AppDelegate.swift in Sources */,

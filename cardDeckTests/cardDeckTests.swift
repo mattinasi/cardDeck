@@ -11,6 +11,10 @@ import XCTest
 
 class cardDeckTests: XCTestCase {
     
+    func testDefaultCard() {
+        XCTAssertNotNil(Card.defaultCard())
+    }
+    
     func testUnshuffledDeck() {
         let deck = makeStandardDeck()
         
@@ -199,5 +203,58 @@ class cardDeckTests: XCTestCase {
         
         // picking 5 out of 7 cards makes 7! / (5!(7-5)!) = 21
         XCTAssertEqual(21, counter)
+    }
+    
+    func testEachPossibleHandCountWhereCountEqualsHandSize() {
+        let deck = [Card(suit: .hearts, rank: .nine),
+                    Card(suit: .clubs, rank: .jack),
+                    Card(suit: .clubs, rank: .three),
+                    Card(suit: .diamonds, rank: .king),
+                    Card(suit: .diamonds, rank: .five)]
+        var counter = 0
+        eachHand(of: 5, in: deck) { hand in
+            counter += 1
+        }
+        
+        XCTAssertEqual(1, counter)
+    }
+
+    func testEachPossibleHandCountWhereCountExceedsHandSize() {
+        let deck = [Card(suit: .hearts, rank: .nine),
+                    Card(suit: .clubs, rank: .jack),
+                    Card(suit: .clubs, rank: .three),
+                    Card(suit: .diamonds, rank: .king),
+                    Card(suit: .diamonds, rank: .five)]
+        var counter = 0
+        eachHand(of: 7, in: deck) { hand in
+            counter += 1
+        }
+        
+        XCTAssertEqual(0, counter)
+    }
+    
+    func testEachPossibleHandCountEmptyDeck() {
+        let deck = [Card]()
+        
+        var counter = 0
+        eachHand(of: 5, in: deck) { hand in
+            counter += 1
+        }
+        
+        XCTAssertEqual(0, counter)
+    }
+    
+    func testEachPossibleHandInvalidTakingSize() {
+        let deck = [Card(suit: .hearts, rank: .nine),
+                    Card(suit: .clubs, rank: .jack),
+                    Card(suit: .clubs, rank: .three),
+                    Card(suit: .diamonds, rank: .king),
+                    Card(suit: .diamonds, rank: .five)]
+        var counter = 0
+        eachHand(of: 0, in: deck) { hand in
+            counter += 1
+        }
+        
+        XCTAssertEqual(0, counter)
     }
 }

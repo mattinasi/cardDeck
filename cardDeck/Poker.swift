@@ -5,11 +5,9 @@
 //  Created by Marc Attinasi on 9/8/18.
 //  Copyright © 2018 Marc Attinasi. All rights reserved.
 //
-
 import Foundation
 
-struct PokerHand {
-    
+struct PokerHand {    
     enum HandRanking {
         case royalFlush
         case straightFlush(CardRank)
@@ -23,15 +21,8 @@ struct PokerHand {
         case highCard(CardRank)
     }
     
-    struct HandScore {
-        var highRank: HandRanking       // the overall rank of the hand
-        var winningHand: [Deck]         // the cards making up the winning rank
-        var highCards: [Card]           // the remaining cards, in rank-order
-        var score: Int                  // experimental numerical score
-    }
-    
-    private let hand: Deck
-    private let straightLength = 5
+    let hand: Deck
+    let straightLength = 5
 
     init(hand: Deck) {
         self.hand = hand
@@ -41,214 +32,177 @@ struct PokerHand {
         return 100
     }
     
-    func handRanking() -> HandScore {
-        
-        if let result = royalFlush() {
-            return HandScore(highRank: .royalFlush,
-                             winningHand: [result],
-                             highCards: [],
-                             score: score(hand: result))
-        }
-        
-        if let sf = straightFlush() {
-            return HandScore(highRank: .straightFlush(sf[0].rank),
-                                        winningHand: [sf],
-                                        highCards: [],
-                                        score: score(hand: hand))
-        }
-
-        if let foak = fourOfAKind() {
-            let winningHand = hand.filter { (card) -> Bool in
-                return card.rank == foak
-            }
-            let highCards = hand.filter { (card) -> Bool in
-                return card.rank != foak
-            }
-            return HandScore(highRank: .fourOfAKind(foak),
-                             winningHand: [winningHand],
-                             highCards: highCards,
-                             score: score(hand: hand))
-        }
-//
-//        let fh = fullHouse()
-//        if fh.result { return .fullHouse(fh.threeRank, fh.pairRank) }
-//
-//        let f = flush()
-//        if f.result { return .flush(f.highRank) }
-//
-        if let st = straight() {
-            return HandScore(highRank: .straight(st[0].rank),
-                             winningHand: [st],
-                             highCards: [],
-                             score: score(hand: hand))
-        }
-        
-//
-//        let toak = threeOfAKind()
-//        if toak.result { return .threeOfAKind(toak.highRank) }
-//
-//        let tp = twoPair()
-//        if tp.result { return .twoPair(tp.highRank1, tp.highRank2) }
-//
-//        let twooak = twoOfAKind()
-//        if twooak.result { return .pair(twooak.highRank) }
-//
-        let high = highCard()
-        if high.result {
-            let sorted = hand.sorted { (l, r) -> Bool in
-                return l.rank.rawValue > r.rank.rawValue
-            }
-            return HandScore(highRank: .highCard(high.cardRanking[0]),
-                             winningHand: [[sorted[0]]],
-                             highCards: sorted,
-                             score: score(hand: hand))
-        }
-        
-        let card = Card.defaultCard()
-        return HandScore(highRank: .highCard(card.rank), winningHand: [[card]], highCards: [card], score: score(hand: [card]))
-    }
-    
     func royalFlush() -> Deck? {
         guard hand.count >= 5 else { return nil }
-        guard let ace = hand.first(where: { (card) -> Bool in
-            card.rank == .ace
-        }) else {
-            return nil
+        
+        var result: Deck?
+        
+        eachHand(of: 5, in: hand) { (currentHand) in
+            // is there an ace?
+            guard let ace = currentHand.first(where: { (card) -> Bool in
+                card.rank == .ace
+            }) else {
+                return
+            }
+            
+            // at least 5 of same suit as ace?
+            let suit = ace.suit
+            let suited = cardsOfSuit(suit, inDeck: currentHand)
+            guard suited.count >= 5 else {
+                return
+            }
+
+            // all of the royal family represented?
+            let winningHand = [Card(suit: suit, rank: .ace),
+                               Card(suit: suit, rank: .king),
+                               Card(suit: suit, rank: .queen),
+                               Card(suit: suit, rank: .jack),
+                               Card(suit: suit, rank: .ten)]
+            for card in winningHand {
+                if !hasCard(card, inDeck: currentHand) {
+                    return
+                }
+            }
+            result = winningHand
         }
         
-
-        // all same suit?
-        let suit = ace.suit
-        let suited = cardsOfSuit(suit, inDeck: hand)
-        guard suited.count >= 5 else {
-            return nil
-        }
-
-        let winningHand = [Card(suit: suit, rank: .ace),
-                           Card(suit: suit, rank: .king),
-                           Card(suit: suit, rank: .queen),
-                           Card(suit: suit, rank: .jack),
-                           Card(suit: suit, rank: .ten)]
-        for winningCard in winningHand {
-            if !hasCard(winningCard, inDeck: hand) {
-                return nil
-            }
-        }
-        return winningHand
+        return result
     }
 
     func straightFlush() -> Deck? {
         guard hand.count >= 5 else { return nil }
         
-        if flush() != nil {
-            // we know it is a flush, so see if it is also a straight
-            return straight()
-        }
-        return nil
-    }
-    
-    func straight(deck: Deck? = nil) -> Deck? {
-        let hand = deck ?? self.hand
-        
-        if hand.count <= straightLength {
-            return _straight(hand)
-        }
-        let steps = hand.count - straightLength
-        for index in 0..<steps {
-            let subHand = Deck(hand[index..<index+straightLength])
-            if let result = _straight(subHand) {
-                return result
+        var result: Deck?
+
+        eachHand(of: 5, in: hand) { (currentHand) in
+            if flush(currentHand) != nil {
+                // we know it is a flush, so see if it is also a straight
+                result = straight(currentHand)
             }
+
         }
-        return nil
+        return result
     }
     
-    private func _straight(_ deck: Deck) -> Deck? {
-        guard deck.count >= 5 else {
+    func straight(_ deck: Deck? = nil) -> Deck? {
+        let deckToOperateOn = deck ?? self.hand
+        guard deckToOperateOn.count >= 5 else {
             return nil
         }
         
-        let sortedDeck = deck.sorted { (l, r) -> Bool in
-            return l.rank.rawValue > r.rank.rawValue
-        }
-        
-        var result = true
+        var result: Deck?
 
-        // now see if they are sequential: first element is the hightest, so start there
-        for index in 1..<straightLength {
-            if sortedDeck[index].rank.rawValue != (sortedDeck[index-1].rank.rawValue - 1) {
-                result = false
-                continue
-            }
-        }
-        
-        let highCard = sortedDeck[0]
-
-        if result {
-            let winningHand = Array(sortedDeck[0..<5])
-            return winningHand
-        }
-        
-        // consider ace, which can be a 1: skip the ace and look at the remainder for a 2,3,4,5 straight
-        if highCard.rank == .ace {
-            let ace = highCard
-            let remainder = sortedDeck.filter { (card) -> Bool in
-                return card.rank != highCard.rank
+        eachHand(of: 5, in: deckToOperateOn) { (currentHand) in
+            let sortedDeck = currentHand.sorted { (l, r) -> Bool in
+                return l.rank.rawValue > r.rank.rawValue
             }
             
-            guard remainder[0].rank == .five else { return nil }
+            var handResult = true
 
-            result = true
-
-            for index in 1..<straightLength-1 {
-                if remainder[index].rank.rawValue != (remainder[index-1].rank.rawValue - 1) {
-                    result = false
+            // now see if they are sequential: first element is the hightest, so start there
+            for index in 1..<straightLength {
+                if sortedDeck[index].rank.rawValue != (sortedDeck[index-1].rank.rawValue - 1) {
+                    handResult = false
                     continue
                 }
             }
+            
+            let highCard = sortedDeck[0]
 
-            if result {
-                var winningHand = Array(remainder[0..<4])
-                winningHand.append(ace)
-                return winningHand
+            if handResult {
+                let winningHand = Array(sortedDeck[0..<5])
+                result = winningHand
+                return
+            }
+            
+            // consider ace, which can be a 1: skip the ace and look at the remainder for a 2,3,4,5 straight
+            if highCard.rank == .ace {
+                let ace = highCard
+                let remainder = sortedDeck.filter { (card) -> Bool in
+                    return card.rank != highCard.rank
+                }
+                
+                guard remainder[0].rank == .five else { return }
+
+                handResult = true
+
+                for index in 1..<straightLength-1 {
+                    if remainder[index].rank.rawValue != (remainder[index-1].rank.rawValue - 1) {
+                        handResult = false
+                        continue
+                    }
+                }
+
+                if handResult {
+                    var winningHand = Array(remainder[0..<4])
+                    winningHand.append(ace)
+                    result = winningHand
+                }
             }
         }
-
-        return nil
-    }
-    
-    func flush() -> CardRank? {
-        var result = false
-
-        let suits = suitsIn(deck: hand)
-        result = suits.count == 1
-
-        let sortedDeck = hand.sorted { (l, r) -> Bool in
-            return l.rank.rawValue > r.rank.rawValue
-        }
-        let highRank = sortedDeck[0].rank
         
-        return result ? highRank : nil
+        return result
     }
     
+    func flush(_ deck: Deck? = nil) -> Deck? {
+        let deckToOperateOn = deck ?? self.hand
+        guard deckToOperateOn.count >= 5 else {
+            return nil
+        }
+    
+        var result: Deck?
+
+        eachHand(of: 5, in: deckToOperateOn) { (currentHand) in
+            var handResult = false
+
+            let suits = suitsIn(deck: currentHand)
+            handResult = suits.count == 1
+
+            if handResult {
+                let sortedHand = currentHand.sorted { (l, r) -> Bool in
+                    return l.rank.rawValue > r.rank.rawValue
+                }
+                let highRank = sortedHand[0].rank
+                
+                if let result = result,
+                   result[0].rank.rawValue > highRank.rawValue { return }
+                
+                result = sortedHand
+            }
+        }
+        return result
+    }
+
     func fourOfAKind() -> CardRank? {
-        guard hand.count >= 4 else { return nil }
-        return countOfAKind(4, inDeck: hand)
+        eachOfAKind(4)
     }
 
     func threeOfAKind() -> CardRank? {
-        guard hand.count >= 3 else { return nil }
-        return countOfAKind(3, inDeck: hand)
+        eachOfAKind(3)
     }
     
     func twoOfAKind() -> CardRank? {
-        guard hand.count >= 2 else { return nil }
-        return countOfAKind(2, inDeck: hand)
+        eachOfAKind(2)
     }
     
-    private func countOfAKind(_ count: Int, inDeck: Deck) -> CardRank? {
-        guard inDeck.count > 0 else { return nil }
+    func eachOfAKind(_ count: Int, inDeck: Deck? = nil) -> CardRank? {
+        let hand = inDeck ?? self.hand
+        guard hand.count >= count else { return nil }
+            
+        var matches = [CardRank]()
         
+        eachHand(of: count, in: hand) { (currentHand) in
+            if let rank = countOfAKind(count, inDeck: currentHand) {
+                matches.append(rank)
+            }
+        }
+        
+        return matches.sorted { (lh, rh) -> Bool in
+            return lh.rawValue > rh.rawValue
+        }.first
+    }
+    
+    func countOfAKind(_ count: Int, inDeck: Deck) -> CardRank? {
         for card in inDeck {
             let matches = cardsOfRank(card.rank, inDeck: inDeck)
             if matches.count >= count {
@@ -263,15 +217,15 @@ struct PokerHand {
     func twoPair() -> (highRank1: CardRank, highRank2: CardRank)? {
         guard hand.count >= 4 else { return nil }
         
-        // first see if there is a pair
+        // get the highestpair first
         if let firstPair = twoOfAKind() {
             // remove those and look for another pair
             let remaining = hand.filter { (card) -> Bool in
                 card.rank != firstPair
             }
-            if let secondPair = countOfAKind(2, inDeck: remaining) {
-                let result = (highRank1: firstPair.rawValue > secondPair.rawValue ? firstPair : secondPair,
-                              highRank2: firstPair.rawValue < secondPair.rawValue ? firstPair : secondPair)
+            
+            if let secondPair = eachOfAKind(2, inDeck: remaining) {
+                let result = (highRank1: firstPair, highRank2: secondPair)
                 return result
             }
         }
@@ -289,7 +243,7 @@ struct PokerHand {
             let remaining = hand.filter { (card) -> Bool in
                 card.rank != three
             }
-            if let pair = countOfAKind(2, inDeck: remaining) {
+            if let pair = eachOfAKind(2, inDeck: remaining) {
                 result.result = true
                 result.pairRank = pair
                 result.threeRank = three

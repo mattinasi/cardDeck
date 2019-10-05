@@ -215,7 +215,7 @@ private func makeCombinations(_ deck: Deck, size: Int) -> [Deck] {
 ///
 public func combinationsWithoutRepetitionFrom<T>(_ elements: [T], taking: Int) -> [[T]] {
   guard elements.count >= taking else { return [] }
-  guard elements.count > 0 && taking > 0 else { return [[]] }
+  guard elements.count > 0 && taking > 0 else { return [] }
 
   if taking == 1 {
     return elements.map {[$0]}
@@ -229,16 +229,6 @@ public func combinationsWithoutRepetitionFrom<T>(_ elements: [T], taking: Int) -
   }
 
   return combinations
-}
-private func subset(deck: Deck, indices: [Int]) -> Deck {
-    var result = Deck()
-    
-    var i = 0
-    indices.forEach { (index) in
-        result[i] = deck[indices[index]]
-        i += 1
-    }
-    return result
 }
 
 // MARK: - display -
