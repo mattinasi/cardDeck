@@ -83,10 +83,18 @@ extension PokerHand {
             }
     
             if let st = straight() {
+                let winningHand = st
+                
+                let highCards = hand.filter { (card) -> Bool in
+                    return !isCard(card, inHand: winningHand)
+                }.sorted { (lh, rh) -> Bool in
+                    return lh.rank.rawValue > rh.rank.rawValue
+                }
+
                 return HandScore(highRank: .straight(st[0].rank),
-                                 winningHand: st,
-                                 highCards: [],
-                                 score: score(hand: st))
+                                 winningHand: winningHand,
+                                 highCards: highCards,
+                                 score: score(hand: winningHand))
             }
             
     
@@ -154,12 +162,14 @@ extension PokerHand {
                              score: score(hand: hand))
         }
         
-        let card = Card.defaultCard()
-        return HandScore(highRank: .highCard(card.rank), winningHand: [card], highCards: [card], score: score(hand: [card]))
+        return HandScore(highRank: .none,
+                         winningHand: [],
+                         highCards: [],
+                         score: score(hand: []))
     }
         
     private func isCard(_ card: Card, inHand hand: Deck) -> Bool {
-        hand.contains { (testCard) -> Bool in
+        return hand.contains { (testCard) -> Bool in
             return testCard.suit == card.suit &&
                 testCard.rank == card.rank
         }

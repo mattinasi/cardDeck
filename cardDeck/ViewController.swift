@@ -13,38 +13,65 @@ class ViewController: UIViewController {
     var deck = Deck() {
         didSet {
             updateDeckDisplay()
+            enableButtons()
         }
     }
     
     var currentHand = Deck() {
         didSet {
             updateHandDisplay()
+            enableButtons()
         }
+    }
+    
+    var currentRiver = Deck() {
+        didSet {
+            updateHandDisplay()
+            enableButtons()
+        }
+    }
+    
+    func enableButtons() {
+        riverButton.isEnabled = currentRiver.isEmpty && !currentHand.isEmpty
     }
     
     @IBOutlet weak var deckLabel: UILabel!
     @IBOutlet weak var handLabel: UILabel!
     @IBOutlet weak var handScore: UILabel!
+    @IBOutlet weak var riverButton: UIButton!
+    @IBOutlet weak var dealHandButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         deck = makeShuffledDeck()
+        
         updateHandDisplay()
     }
     
     @IBAction func onDealHand(_ sender: Any) {
         if let dealtHand = try? dealHand(fromDeck: deck, count: 5) {
             currentHand = dealtHand.cards
+            currentRiver = Deck()
             deck = dealtHand.remainingDeck
         } else {
             toast(message: "Could not deal a new hand")
         }
     }
     
+    @IBAction func onDealRiver(_ sender: Any) {
+        if let dealtHand = try? dealHand(fromDeck: deck, count: 3) {
+            currentRiver = dealtHand.cards
+            deck = dealtHand.remainingDeck
+        } else {
+            toast(message: "Could not deal river cards")
+        }
+    }
+    
     @IBAction func onNewDeck(_ sender: Any) {
         deck = makeShuffledDeck()
         currentHand = Deck()
+        currentRiver = Deck()
     }
     
     func updateDeckDisplay() {
@@ -55,8 +82,18 @@ class ViewController: UIViewController {
         }
     }
     
+    func displayRiver() {
+        if !currentRiver.isEmpty {
+            handLabel.text = "\(handLabel.text!)\nRiver Cards\n"
+            
+            currentRiver.forEach { (riverCard) in
+                handLabel.text = "\(handLabel.text!)\n\(cardRepresentation(riverCard))"
+            }
+        }
+    }
+    
     func updateHandDisplay() {
-        handLabel.text = ""
+        handLabel.text = "Current Hand\n"
         
         let sortedHand = currentHand.sorted { (l, r) -> Bool in
             l.rank.rawValue > r.rank.rawValue
@@ -66,18 +103,21 @@ class ViewController: UIViewController {
             handLabel.text = "\(handLabel.text!)\n\(cardRepresentation(card))"
         }
         
+        displayRiver()
+        
         updateHandScore()
     }
-    
+        
     func updateHandScore() {
         guard currentHand.count > 0 else {
             handScore.text = ""
             return
         }
         
-        let pokerHand = PokerHand(hand: currentHand)
+        let score = PokerHand(hand: currentHand + currentRiver).handRanking()
         
-        let score = pokerHand.handRanking()
+        let highCard = score.highCards.isEmpty ? Card.defaultCard() : score.highCards.first!
+        
         switch score.highRank {
         case .royalFlush:
             handScore.text = "Royal Flush!"
@@ -88,17 +128,19 @@ class ViewController: UIViewController {
         case .straight(let rank):
             handScore.text = "Straight with \(rank)"
         case .fourOfAKind(let rank):
-            handScore.text = "Four of a Kind with \(rank)"
+            handScore.text = "Four of a Kind with \(rank) - High card is \(highCard.rank))"
         case .fullHouse(let rank3, let rank2):
             handScore.text = "Full House with 3-\(rank3)'s and a 2-\(rank2)'s"
         case .threeOfAKind(let rank):
-            handScore.text = "Three of a kind with \(rank)"
+            handScore.text = "Three of a kind with \(rank) - High card is \(highCard.rank)"
         case .twoPair(let pair1, let pair2):
-            handScore.text = "Two pair with \(pair1)'s and \(pair2)'s"
+            handScore.text = "Two pair with \(pair1)'s and \(pair2)'s - High card is \(highCard.rank)"
         case .pair(let rank):
-            handScore.text = "Pair of \(rank)'s"
+            handScore.text = "Pair of \(rank)'s - High card is \(highCard.rank)"
         case .highCard(let rank):
             handScore.text = "High Card with \(rank)"
+        case .none:
+            handScore.text = "No Cards!"
         }
     }
     

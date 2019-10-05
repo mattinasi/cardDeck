@@ -8,7 +8,7 @@
 import Foundation
 
 struct PokerHand {    
-    enum HandRanking {
+    enum HandRanking: Equatable {
         case royalFlush
         case straightFlush(CardRank)
         case fourOfAKind(CardRank)
@@ -19,6 +19,7 @@ struct PokerHand {
         case twoPair(CardRank, CardRank)
         case pair(CardRank)
         case highCard(CardRank)
+        case none
     }
     
     let hand: Deck
@@ -122,11 +123,11 @@ struct PokerHand {
                     return card.rank != highCard.rank
                 }
                 
-                guard remainder[0].rank == .five else { return }
+                guard remainder.count >= 4 && remainder[0].rank == .five else { return }
 
                 handResult = true
 
-                for index in 1..<straightLength-1 {
+                for index in 1..<remainder.count-1 {
                     if remainder[index].rank.rawValue != (remainder[index-1].rank.rawValue - 1) {
                         handResult = false
                         continue
@@ -253,7 +254,7 @@ struct PokerHand {
     }
     
     func highCard() -> (result: Bool, cardRanking: [CardRank]) {
-        var result = (result: true, cardRanking: [CardRank.ace])
+        var result = (result: !hand.isEmpty, cardRanking: [CardRank.ace])
         
         let sortedDeck = hand.sorted { (l, r) -> Bool in
             return l.rank.rawValue > r.rank.rawValue

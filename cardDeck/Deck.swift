@@ -254,6 +254,16 @@ func cardRepresentation(_ card: Card) -> String {
     return "\(card.suit.rawValue) \(rank)"
 }
 
+func handRepresentation(_ hand: Deck) -> String {
+    var result = ""
+    
+    hand.forEach { (card) in
+        result = result + cardRepresentation(card) + "\n"
+    }
+    
+    return result
+}
+
 func print(deck: Deck) {
   deck.forEach { (card) in
     print("\(cardRepresentation(card))")

@@ -674,6 +674,35 @@ class cardPokerTests: XCTestCase {
         }
     }
 
+    func testStraightHandRanking() {
+        let deck = shuffle(deck: [Card(suit: .hearts, rank: .king),
+                                  Card(suit: .hearts, rank: .queen),
+                                  Card(suit: .clubs, rank: .jack),
+                                  Card(suit: .diamonds, rank: .ten),
+                                  Card(suit: .diamonds, rank: .nine),
+                                  Card(suit: .clubs, rank: .three),
+                                  Card(suit: .hearts, rank: .seven)])
+        let pokerHand = PokerHand(hand: deck)
+        let result = pokerHand.handRanking()
+        
+        switch result.highRank {
+        case .straight(let rank):
+            XCTAssertEqual(rank, .king)
+            guard let topCard = result.winningHand.first else {
+                XCTFail("Winning Hand is empty!")
+                return
+            }
+            XCTAssertNotNil(topCard)
+            XCTAssertEqual(.hearts, topCard.suit)
+            XCTAssertEqual(.king, topCard.rank)
+            XCTAssertEqual(2, result.highCards.count)
+            XCTAssertEqual(.seven, result.highCards[0].rank)
+            break
+        default:
+            XCTFail("Expected Flush ranking")
+        }
+    }
+    
     func testThreeOfAKindHandRanking() {
         let deck = shuffle(deck: [Card(suit: .clubs, rank: .king),
                                   Card(suit: .hearts, rank: .ace),
@@ -761,6 +790,13 @@ class cardPokerTests: XCTestCase {
         default:
             XCTFail("Expected High Card ranking")
         }
-
+    }
+    
+    func testHandRankingEmptyHand() {
+        let pokerHand = PokerHand(hand: [])
+        
+        let result = pokerHand.handRanking()
+        
+        XCTAssertTrue(result.highRank == PokerHand.HandRanking.none)
     }
 }
