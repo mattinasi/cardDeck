@@ -23,7 +23,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="eKC-Fp-idz">
-                                <rect key="frame" x="127.66666666666669" y="100" width="159" height="30"/>
+                                <rect key="frame" x="124" y="100" width="166" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MOT-pv-5yX">
                                         <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
@@ -33,10 +33,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vt2-3E-BWh">
-                                        <rect key="frame" x="81.999999999999986" y="0.0" width="77.000000000000014" height="30"/>
-                                        <state key="normal" title="Show River"/>
+                                        <rect key="frame" x="82" y="0.0" width="84" height="30"/>
+                                        <state key="normal" title="Deal Shared"/>
                                         <connections>
-                                            <action selector="onDealRiver:" destination="BYZ-38-t0r" eventType="touchUpInside" id="klw-7C-nna"/>
+                                            <action selector="onDealShared:" destination="BYZ-38-t0r" eventType="touchUpInside" id="klw-7C-nna"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -93,10 +93,10 @@
                     <tabBarItem key="tabBarItem" title="Play" id="Iap-J3-F3P"/>
                     <connections>
                         <outlet property="dealHandButton" destination="MOT-pv-5yX" id="zOA-hF-Bvw"/>
+                        <outlet property="dealSharedButton" destination="Vt2-3E-BWh" id="1z8-Cg-m6A"/>
                         <outlet property="deckLabel" destination="c8n-Hz-gt8" id="jvy-ND-0Ht"/>
                         <outlet property="handLabel" destination="eod-Ud-dHW" id="FrP-sH-wFU"/>
                         <outlet property="handScore" destination="VaS-xs-TnN" id="rh9-AP-D1W"/>
-                        <outlet property="riverButton" destination="Vt2-3E-BWh" id="1z8-Cg-m6A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

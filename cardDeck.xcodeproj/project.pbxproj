@@ -16,6 +16,9 @@
 		492B5EFB2144D7C70034A82D /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EFA2144D7C70034A82D /* Deck.swift */; };
 		492B5EFD2144D8AC0034A82D /* Poker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EFC2144D8AC0034A82D /* Poker.swift */; };
 		4964A59A234958F300BB2A27 /* PokerTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964A599234958F300BB2A27 /* PokerTabBarController.swift */; };
+		4964A59B234A555C00BB2A27 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EFA2144D7C70034A82D /* Deck.swift */; };
+		4964A59C234A556000BB2A27 /* Poker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EFC2144D8AC0034A82D /* Poker.swift */; };
+		4964A59D234A556400BB2A27 /* Poker+HandRanking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497641342347907700E22631 /* Poker+HandRanking.swift */; };
 		497641352347907700E22631 /* Poker+HandRanking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497641342347907700E22631 /* Poker+HandRanking.swift */; };
 		497641382349469700E22631 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497641372349469700E22631 /* StatsViewController.swift */; };
 		497641392349469700E22631 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497641372349469700E22631 /* StatsViewController.swift */; };
@@ -232,9 +235,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4964A59C234A556000BB2A27 /* Poker.swift in Sources */,
+				4964A59B234A555C00BB2A27 /* Deck.swift in Sources */,
 				492B5EF02144D7AB0034A82D /* cardDeckTests.swift in Sources */,
 				497641392349469700E22631 /* StatsViewController.swift in Sources */,
 				49C865372145979B00EC5CAA /* cardPokerTests.swift in Sources */,
+				4964A59D234A556400BB2A27 /* Poker+HandRanking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +325,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -374,7 +380,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

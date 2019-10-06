@@ -96,9 +96,9 @@ class StatsViewController: UIViewController, UpdateDisplayDelegate {
                 while count <= 50000 {
                     let deck = makeShuffledDeck()
                     guard let hand = try? dealHand(fromDeck: deck, count: 5),
-                        let river = try? dealHand(fromDeck: hand.remainingDeck, count: 3) else { break }
+                        let shared = try? dealHand(fromDeck: hand.remainingDeck, count: 3) else { break }
                     
-                    if trial.test(PokerHand(hand: hand.cards + river.cards).hand, count, trial) {
+                    if trial.test(PokerHand(hand: hand.cards + shared.cards).hand, count, trial) {
                         break
                     }
                     

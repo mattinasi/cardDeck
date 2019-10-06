@@ -23,7 +23,6 @@ struct PokerHand {
     }
     
     let hand: Deck
-    let straightLength = 5
 
     init(hand: Deck) {
         self.hand = hand
@@ -86,8 +85,10 @@ struct PokerHand {
     }
     
     func straight(_ deck: Deck? = nil) -> Deck? {
+        let straightLength = 5
+
         let deckToOperateOn = deck ?? self.hand
-        guard deckToOperateOn.count >= 5 else {
+        guard deckToOperateOn.count >= straightLength else {
             return nil
         }
         
@@ -123,7 +124,7 @@ struct PokerHand {
                     return card.rank != highCard.rank
                 }
                 
-                guard remainder.count >= 4 && remainder[0].rank == .five else { return }
+                guard remainder.count >= straightLength-1 && remainder[0].rank == .five else { return }
 
                 handResult = true
 
@@ -135,7 +136,7 @@ struct PokerHand {
                 }
 
                 if handResult {
-                    var winningHand = Array(remainder[0..<4])
+                    var winningHand = Array(remainder[0..<straightLength-1])
                     winningHand.append(ace)
                     result = winningHand
                 }

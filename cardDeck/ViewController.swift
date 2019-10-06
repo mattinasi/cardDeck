@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         }
     }
     
-    var currentRiver = Deck() {
+    var currentSharedCards = Deck() {
         didSet {
             updateHandDisplay()
             enableButtons()
@@ -32,13 +32,13 @@ class ViewController: UIViewController {
     }
     
     func enableButtons() {
-        riverButton.isEnabled = currentRiver.isEmpty && !currentHand.isEmpty
+        dealSharedButton.isEnabled = currentSharedCards.isEmpty && !currentHand.isEmpty
     }
     
     @IBOutlet weak var deckLabel: UILabel!
     @IBOutlet weak var handLabel: UILabel!
     @IBOutlet weak var handScore: UILabel!
-    @IBOutlet weak var riverButton: UIButton!
+    @IBOutlet weak var dealSharedButton: UIButton!
     @IBOutlet weak var dealHandButton: UIButton!
     
     override func viewDidLoad() {
@@ -50,28 +50,28 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onDealHand(_ sender: Any) {
-        if let dealtHand = try? dealHand(fromDeck: deck, count: 5) {
+        if let dealtHand = try? dealHand(fromDeck: deck, count: 2) {
             currentHand = dealtHand.cards
-            currentRiver = Deck()
+            currentSharedCards = Deck()
             deck = dealtHand.remainingDeck
         } else {
             toast(message: "Could not deal a new hand")
         }
     }
     
-    @IBAction func onDealRiver(_ sender: Any) {
-        if let dealtHand = try? dealHand(fromDeck: deck, count: 3) {
-            currentRiver = dealtHand.cards
+    @IBAction func onDealShared(_ sender: Any) {
+        if let dealtHand = try? dealHand(fromDeck: deck, count: 5) {
+            currentSharedCards = dealtHand.cards
             deck = dealtHand.remainingDeck
         } else {
-            toast(message: "Could not deal river cards")
+            toast(message: "Could not deal shared cards")
         }
     }
     
     @IBAction func onNewDeck(_ sender: Any) {
         deck = makeShuffledDeck()
         currentHand = Deck()
-        currentRiver = Deck()
+        currentSharedCards = Deck()
     }
     
     func updateDeckDisplay() {
@@ -82,12 +82,12 @@ class ViewController: UIViewController {
         }
     }
     
-    func displayRiver() {
-        if !currentRiver.isEmpty {
-            handLabel.text = "\(handLabel.text!)\nRiver Cards\n"
+    func displaySharedCards() {
+        if !currentSharedCards.isEmpty {
+            handLabel.text = "\(handLabel.text!)\n\nShared Cards\n"
             
-            currentRiver.forEach { (riverCard) in
-                handLabel.text = "\(handLabel.text!)\n\(cardRepresentation(riverCard))"
+            currentSharedCards.forEach { (sharedCard) in
+                handLabel.text = "\(handLabel.text!)\n\(cardRepresentation(sharedCard))"
             }
         }
     }
@@ -103,7 +103,7 @@ class ViewController: UIViewController {
             handLabel.text = "\(handLabel.text!)\n\(cardRepresentation(card))"
         }
         
-        displayRiver()
+        displaySharedCards()
         
         updateHandScore()
     }
@@ -114,7 +114,7 @@ class ViewController: UIViewController {
             return
         }
         
-        let score = PokerHand(hand: currentHand + currentRiver).handRanking()
+        let score = PokerHand(hand: currentHand + currentSharedCards).handRanking()
         
         let highCard = score.highCards.isEmpty ? Card.defaultCard() : score.highCards.first!
         

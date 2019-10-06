@@ -11,10 +11,11 @@ import Foundation
 // MARK: - types -
 
 enum Suit : String {
-  case hearts = "♥️"
-  case spades = "♠️"
-  case diamonds = "♦️"
-  case clubs = "♣️"
+    case hearts = "♥️"
+    case spades = "♠️"
+    case diamonds = "♦️"
+    case clubs = "♣️"
+    case none = "😶"
 }
 
 enum CardRank: Int {
@@ -34,8 +35,7 @@ enum CardRank: Int {
     case none   = 0
 }
 
-struct Card {
-    
+struct Card: Equatable {
     var suit: Suit
     var rank: CardRank
     
@@ -44,8 +44,13 @@ struct Card {
         self.rank = rank
     }
     
+    static func == (lhs: Card, rhs: Card) -> Bool {
+        return lhs.rank == rhs.rank &&
+               lhs.suit == rhs.suit
+    }
+    
     static func defaultCard() -> Card {
-        return Card(suit: .spades, rank: .ace)
+        return Card(suit: .none, rank: .none)
     }
 }
 
@@ -169,8 +174,8 @@ func cardsOfRank(_ rank: CardRank, inDeck deck: Deck) -> Deck {
 // returns true if the specified card is in the deck
 //
 func hasCard(_ card: Card, inDeck deck: Deck) -> Bool {
-  return deck.first(where: { (c) -> Bool in
-    return c.suit == card.suit && c.rank == card.rank
+  return deck.first(where: { (testCard) -> Bool in
+    return testCard == card
   }) != nil
 }
 

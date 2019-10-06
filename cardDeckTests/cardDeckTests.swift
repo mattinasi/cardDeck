@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import cardDeck
 
 class cardDeckTests: XCTestCase {
     
