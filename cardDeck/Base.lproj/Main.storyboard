@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3wu-VG-0eQ">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
@@ -13,17 +13,17 @@
             <objects>
                 <viewController id="BYZ-38-t0r" userLabel="Poker Play" customClass="ViewController" customModule="cardDeck" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card Testbed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aF2-pH-1g7">
-                                <rect key="frame" x="101.5" y="10" width="172" height="36"/>
+                                <rect key="frame" x="121" y="54" width="172" height="36"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="eKC-Fp-idz">
-                                <rect key="frame" x="108" y="56" width="159" height="30"/>
+                                <rect key="frame" x="127.66666666666669" y="100" width="159" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MOT-pv-5yX">
                                         <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
@@ -33,7 +33,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vt2-3E-BWh">
-                                        <rect key="frame" x="82" y="0.0" width="77" height="30"/>
+                                        <rect key="frame" x="81.999999999999986" y="0.0" width="77.000000000000014" height="30"/>
                                         <state key="normal" title="Show River"/>
                                         <connections>
                                             <action selector="onDealRiver:" destination="BYZ-38-t0r" eventType="touchUpInside" id="klw-7C-nna"/>
@@ -43,7 +43,7 @@
                                 <color key="backgroundColor" systemColor="secondarySystemFillColor" red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hand" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="40" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eod-Ud-dHW">
-                                <rect key="frame" x="10" y="96" width="355" height="20.5"/>
+                                <rect key="frame" x="10" y="140" width="394" height="20.333333333333343"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
@@ -52,20 +52,20 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c8n-Hz-gt8">
-                                <rect key="frame" x="10" y="587.5" width="355" height="20.5"/>
+                                <rect key="frame" x="10" y="782.66666666666663" width="394" height="20.333333333333371"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C2R-cK-zqd">
-                                <rect key="frame" x="152.5" y="547.5" width="70" height="30"/>
+                                <rect key="frame" x="172" y="742.66666666666663" width="70" height="30"/>
                                 <state key="normal" title="New Deck"/>
                                 <connections>
                                     <action selector="onNewDeck:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gi8-7U-IEW"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VaS-xs-TnN">
-                                <rect key="frame" x="166.5" y="126.5" width="42.5" height="19.5"/>
+                                <rect key="frame" x="186" y="170.33333333333334" width="42.333333333333343" height="19.333333333333343"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -108,56 +108,53 @@
             <objects>
                 <viewController id="rWb-X3-2V7" userLabel="Stats" customClass="StatsViewController" customModule="cardDeck" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CN8-FF-5r3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Poker Statistics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLu-Ev-oLc">
-                                <rect key="frame" x="128" y="20" width="119" height="21"/>
+                                <rect key="frame" x="147.66666666666666" y="64" width="118.99999999999997" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="1" text="..." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c6N-7D-Q0h">
-                                <rect key="frame" x="20" y="82" width="335" height="516"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9uQ-BY-DGL">
-                                <rect key="frame" x="156" y="42" width="63" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9uQ-BY-DGL">
+                                <rect key="frame" x="175.66666666666666" y="95" width="63" height="30"/>
                                 <state key="normal" title="Compute"/>
                                 <connections>
                                     <action selector="compute:" destination="rWb-X3-2V7" eventType="touchUpInside" id="9iO-jo-L2J"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="BpM-DC-JNd">
+                                <rect key="frame" x="16" y="135" width="382" height="678"/>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="c6N-7D-Q0h" firstAttribute="top" secondItem="9uQ-BY-DGL" secondAttribute="bottom" constant="10" id="0FH-pe-4RK"/>
-                            <constraint firstItem="xeH-JU-N3Y" firstAttribute="bottom" secondItem="c6N-7D-Q0h" secondAttribute="bottom" constant="20" id="4Bd-IA-5tp"/>
-                            <constraint firstItem="xeH-JU-N3Y" firstAttribute="bottom" secondItem="9uQ-BY-DGL" secondAttribute="bottom" constant="546" id="BOt-LZ-Ifk"/>
+                            <constraint firstItem="BpM-DC-JNd" firstAttribute="leading" secondItem="xeH-JU-N3Y" secondAttribute="leading" constant="16" id="4sY-tF-SKu"/>
                             <constraint firstItem="LLu-Ev-oLc" firstAttribute="centerX" secondItem="xeH-JU-N3Y" secondAttribute="centerX" id="HDZ-rP-IAY"/>
-                            <constraint firstItem="c6N-7D-Q0h" firstAttribute="leading" secondItem="xeH-JU-N3Y" secondAttribute="leading" constant="20" id="IHB-Lj-jJE"/>
+                            <constraint firstItem="xeH-JU-N3Y" firstAttribute="bottom" secondItem="BpM-DC-JNd" secondAttribute="bottom" id="QwO-Dg-l6i"/>
                             <constraint firstItem="LLu-Ev-oLc" firstAttribute="top" secondItem="xeH-JU-N3Y" secondAttribute="top" constant="20" id="TKl-ee-Sri"/>
-                            <constraint firstItem="9uQ-BY-DGL" firstAttribute="top" secondItem="LLu-Ev-oLc" secondAttribute="bottom" constant="1" id="Vu5-Xe-ufp"/>
-                            <constraint firstItem="xeH-JU-N3Y" firstAttribute="trailing" secondItem="c6N-7D-Q0h" secondAttribute="trailing" constant="20" id="sSm-2p-hCB"/>
+                            <constraint firstItem="9uQ-BY-DGL" firstAttribute="top" secondItem="LLu-Ev-oLc" secondAttribute="bottom" constant="10" id="Vu5-Xe-ufp"/>
+                            <constraint firstItem="xeH-JU-N3Y" firstAttribute="trailing" secondItem="BpM-DC-JNd" secondAttribute="trailing" constant="16" id="ddf-4h-Zfy"/>
+                            <constraint firstItem="9uQ-BY-DGL" firstAttribute="centerX" secondItem="xeH-JU-N3Y" secondAttribute="centerX" id="jKe-wG-V6a"/>
+                            <constraint firstItem="BpM-DC-JNd" firstAttribute="top" secondItem="9uQ-BY-DGL" secondAttribute="bottom" constant="10" id="jbM-cz-s2a"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xeH-JU-N3Y"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Stats" id="nBW-oq-ijk"/>
                     <connections>
-                        <outlet property="statsLabel" destination="c6N-7D-Q0h" id="hwM-DQ-EZ8"/>
+                        <outlet property="resultStackView" destination="BpM-DC-JNd" id="hfD-Dh-mbU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XAg-PJ-elL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1076" y="-148"/>
+            <point key="canvasLocation" x="1076" y="-148.87556221889056"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Poker Tab Bar Controller-->
         <scene sceneID="Nfh-lv-1l9">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DqA-EE-De6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="3wu-VG-0eQ" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="3wu-VG-0eQ" customClass="PokerTabBarController" customModule="cardDeck" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pdc-pX-d7v">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>

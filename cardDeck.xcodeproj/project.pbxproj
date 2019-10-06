@@ -15,6 +15,7 @@
 		492B5EF02144D7AB0034A82D /* cardDeckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EEF2144D7AB0034A82D /* cardDeckTests.swift */; };
 		492B5EFB2144D7C70034A82D /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EFA2144D7C70034A82D /* Deck.swift */; };
 		492B5EFD2144D8AC0034A82D /* Poker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EFC2144D8AC0034A82D /* Poker.swift */; };
+		4964A59A234958F300BB2A27 /* PokerTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964A599234958F300BB2A27 /* PokerTabBarController.swift */; };
 		497641352347907700E22631 /* Poker+HandRanking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497641342347907700E22631 /* Poker+HandRanking.swift */; };
 		497641382349469700E22631 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497641372349469700E22631 /* StatsViewController.swift */; };
 		497641392349469700E22631 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497641372349469700E22631 /* StatsViewController.swift */; };
@@ -44,6 +45,7 @@
 		492B5EF12144D7AB0034A82D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		492B5EFA2144D7C70034A82D /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		492B5EFC2144D8AC0034A82D /* Poker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poker.swift; sourceTree = "<group>"; };
+		4964A599234958F300BB2A27 /* PokerTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokerTabBarController.swift; sourceTree = "<group>"; };
 		497641342347907700E22631 /* Poker+HandRanking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Poker+HandRanking.swift"; sourceTree = "<group>"; };
 		497641372349469700E22631 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		49C865362145979B00EC5CAA /* cardPokerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cardPokerTests.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				492B5EDA2144D7A90034A82D /* AppDelegate.swift */,
+				4964A599234958F300BB2A27 /* PokerTabBarController.swift */,
 				492B5EDC2144D7A90034A82D /* ViewController.swift */,
 				497641372349469700E22631 /* StatsViewController.swift */,
 				492B5EDE2144D7A90034A82D /* Main.storyboard */,
@@ -220,6 +223,7 @@
 				492B5EDD2144D7A90034A82D /* ViewController.swift in Sources */,
 				492B5EDB2144D7A90034A82D /* AppDelegate.swift in Sources */,
 				497641382349469700E22631 /* StatsViewController.swift in Sources */,
+				4964A59A234958F300BB2A27 /* PokerTabBarController.swift in Sources */,
 				492B5EFD2144D8AC0034A82D /* Poker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -387,6 +391,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8YYMBDTT4Z;
 				INFOPLIST_FILE = cardDeck/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -405,6 +410,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8YYMBDTT4Z;
 				INFOPLIST_FILE = cardDeck/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

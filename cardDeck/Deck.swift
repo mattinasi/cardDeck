@@ -264,6 +264,16 @@ func handRepresentation(_ hand: Deck) -> String {
     return result
 }
 
+func compactHandRepresentation(_ hand: Deck) -> String {
+    var result = ""
+    
+    hand.forEach { (card) in
+        result = result + cardRepresentation(card) + " "
+    }
+    
+    return result
+}
+
 func print(deck: Deck) {
   deck.forEach { (card) in
     print("\(cardRepresentation(card))")
