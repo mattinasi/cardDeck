@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		492B5EDB2144D7A90034A82D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EDA2144D7A90034A82D /* AppDelegate.swift */; };
-		492B5EDD2144D7A90034A82D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EDC2144D7A90034A82D /* ViewController.swift */; };
+		492B5EDD2144D7A90034A82D /* PlayPokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B5EDC2144D7A90034A82D /* PlayPokerViewController.swift */; };
 		492B5EE02144D7A90034A82D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 492B5EDE2144D7A90034A82D /* Main.storyboard */; };
 		492B5EE22144D7AB0034A82D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 492B5EE12144D7AB0034A82D /* Assets.xcassets */; };
 		492B5EE52144D7AB0034A82D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 492B5EE32144D7AB0034A82D /* LaunchScreen.storyboard */; };
@@ -38,7 +38,7 @@
 /* Begin PBXFileReference section */
 		492B5ED72144D7A90034A82D /* cardDeck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cardDeck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		492B5EDA2144D7A90034A82D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		492B5EDC2144D7A90034A82D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		492B5EDC2144D7A90034A82D /* PlayPokerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPokerViewController.swift; sourceTree = "<group>"; };
 		492B5EDF2144D7A90034A82D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		492B5EE12144D7AB0034A82D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		492B5EE42144D7AB0034A82D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 			children = (
 				492B5EDA2144D7A90034A82D /* AppDelegate.swift */,
 				4964A599234958F300BB2A27 /* PokerTabBarController.swift */,
-				492B5EDC2144D7A90034A82D /* ViewController.swift */,
+				492B5EDC2144D7A90034A82D /* PlayPokerViewController.swift */,
 				497641372349469700E22631 /* StatsViewController.swift */,
 				492B5EDE2144D7A90034A82D /* Main.storyboard */,
 				492B5EE12144D7AB0034A82D /* Assets.xcassets */,
@@ -223,7 +223,7 @@
 			files = (
 				497641352347907700E22631 /* Poker+HandRanking.swift in Sources */,
 				492B5EFB2144D7C70034A82D /* Deck.swift in Sources */,
-				492B5EDD2144D7A90034A82D /* ViewController.swift in Sources */,
+				492B5EDD2144D7A90034A82D /* PlayPokerViewController.swift in Sources */,
 				492B5EDB2144D7A90034A82D /* AppDelegate.swift in Sources */,
 				497641382349469700E22631 /* StatsViewController.swift in Sources */,
 				4964A59A234958F300BB2A27 /* PokerTabBarController.swift in Sources */,

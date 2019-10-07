@@ -230,6 +230,7 @@ class cardPokerTests: XCTestCase {
     func testStraightWithAce() {
         let deck = straightWithAce
         let pokerHand = PokerHand(hand: deck)
+        
         let result = pokerHand.straight()
         
         XCTAssertNotNil(result)
@@ -245,10 +246,26 @@ class cardPokerTests: XCTestCase {
                                   Card(suit: .clubs, rank: .king),
                                   Card(suit: .diamonds, rank: .queen)])
         let pokerHand = PokerHand(hand: deck)
+        
         let result = pokerHand.straight()
         
         XCTAssertNotNil(result)
         XCTAssertEqual(CardRank.five, result?[0].rank)
+    }
+
+    func testNotStraightWithMultipleAces() {
+        let deck = shuffle(deck: [Card(suit: .diamonds, rank: .five),
+                                  Card(suit: .spades, rank: .four),
+                                  Card(suit: .diamonds, rank: .three),
+                                  Card(suit: .spades, rank: .seven),
+                                  Card(suit: .diamonds, rank: .ace),
+                                  Card(suit: .clubs, rank: .three),
+                                  Card(suit: .diamonds, rank: .king)])
+        let pokerHand = PokerHand(hand: deck)
+        
+        let result = pokerHand.straight()
+        
+        XCTAssertNil(result)
     }
 
     func testNotStraightWithAce() {
@@ -258,6 +275,7 @@ class cardPokerTests: XCTestCase {
                                   Card(suit: .spades, rank: .three),
                                   Card(suit: .diamonds, rank: .five)])
         let pokerHand = PokerHand(hand: deck)
+        
         let result = pokerHand.straight()
         
         XCTAssertNil(result)

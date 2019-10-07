@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class PlayPokerViewController: UIViewController {
 
     var deck = Deck() {
         didSet {

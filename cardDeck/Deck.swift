@@ -278,9 +278,3 @@ func compactHandRepresentation(_ hand: Deck) -> String {
     
     return result
 }
-
-func print(deck: Deck) {
-  deck.forEach { (card) in
-    print("\(cardRepresentation(card))")
-  }
-}

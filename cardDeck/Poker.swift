@@ -20,6 +20,33 @@ struct PokerHand {
         case pair(CardRank)
         case highCard(CardRank)
         case none
+        
+        func toString() -> String {
+            switch self {
+            case .royalFlush:
+                return "Royal Flush"
+            case .straightFlush(_):
+                return "Straight Flush"
+            case .fourOfAKind(_):
+                return "Four of a Kind"
+            case .fullHouse(_, _):
+                return "Full House"
+            case .flush(_):
+                return "Flush"
+            case .straight(_):
+                return "Straight"
+            case .threeOfAKind(_):
+                return "Three of a Kind"
+            case .twoPair(_, _):
+                return "Two Pairs"
+            case .pair(_):
+                return "Pair"
+            case .highCard(_):
+                return "High Card"
+            case .none:
+                return "NA"
+            }
+        }
     }
     
     let hand: Deck
@@ -128,7 +155,7 @@ struct PokerHand {
 
                 handResult = true
 
-                for index in 1..<remainder.count-1 {
+                for index in 1..<straightLength-1 {
                     if remainder[index].rank.rawValue != (remainder[index-1].rank.rawValue - 1) {
                         handResult = false
                         continue
