@@ -11,7 +11,7 @@ extension PokerHand {
     struct HandScore {
         var highRank: HandRanking       // the overall rank of the hand
         var winningHand: Deck           // the cards making up the winning rank
-        var highCards: [Card]           // the remaining cards, in rank-order
+        var highCards: Deck             // the remaining cards, in rank-order
         var score: Int                  // experimental numerical score
     }
     

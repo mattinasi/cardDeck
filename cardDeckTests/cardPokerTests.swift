@@ -817,4 +817,18 @@ class cardPokerTests: XCTestCase {
         
         XCTAssertTrue(result.highRank == PokerHand.HandRanking.none)
     }
+    
+    func testHandNames() {
+        XCTAssertEqual(PokerHand.HandRanking.royalFlush.toString(), "Royal Flush")
+        XCTAssertEqual(PokerHand.HandRanking.straightFlush(CardRank.ace).toString(), "Straight Flush")
+        XCTAssertEqual(PokerHand.HandRanking.fourOfAKind(CardRank.ace).toString(), "Four of a Kind")
+        XCTAssertEqual(PokerHand.HandRanking.fullHouse(CardRank.ace, CardRank.king).toString(), "Full House")
+        XCTAssertEqual(PokerHand.HandRanking.flush(CardRank.ace).toString(), "Flush")
+        XCTAssertEqual(PokerHand.HandRanking.straight(CardRank.ace).toString(), "Straight")
+        XCTAssertEqual(PokerHand.HandRanking.threeOfAKind(CardRank.ace).toString(), "Three of a Kind")
+        XCTAssertEqual(PokerHand.HandRanking.twoPair(CardRank.ace, CardRank.king).toString(), "Two Pairs")
+        XCTAssertEqual(PokerHand.HandRanking.pair(CardRank.ace).toString(), "Pair")
+        XCTAssertEqual(PokerHand.HandRanking.highCard(CardRank.ace).toString(), "High Card")
+        XCTAssertEqual(PokerHand.HandRanking.none.toString(), "NA")
+    }
 }
